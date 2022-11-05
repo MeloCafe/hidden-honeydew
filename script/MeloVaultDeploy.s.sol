@@ -13,7 +13,7 @@ contract MeloVaultDeploy is Script {
         IVerifier verifier = new TrueVerifier();
         
         vm.broadcast();
-        SuspiciousStrawberry strawberry = new SuspiciousStrawberry();
+        SuspiciousStrawberry strawberry = new SuspiciousStrawberry("base uri");
 
         vm.broadcast();
         strawberry.mint(tx.origin, 1);

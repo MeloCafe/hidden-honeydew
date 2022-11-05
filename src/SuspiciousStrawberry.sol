@@ -1,10 +1,22 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
 
-import "openzeppelin/token/ERC721/ERC721.sol";
+import "ERC721A/ERC721A.sol";
 
-contract SuspiciousStrawberry is ERC721 {
-    constructor() ERC721("Suspicious Strawberry", "SUSSTRAWB") {}
+contract SuspiciousStrawberry is ERC721A {
+    string baseURI;
+
+    constructor(string memory uri) ERC721A("Suspicious Strawberry", "SUSSTRAWB") {
+        baseURI = uri;
+    }
+
+    function setBaseURI(string memory uri) public {
+        baseURI = uri;
+    }
+
+    function _baseURI() internal view override returns (string memory) {
+        return baseURI;
+    }
 
     function mint(address to, uint256 tokenId) public {
         _mint(to, tokenId);
