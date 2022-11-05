@@ -3,9 +3,9 @@ pragma solidity ^0.8.16;
 
 import "forge-std/Script.sol";
 
-import "../../src/MeloVault.sol";
-import "../../src/TrueVerifier.sol";
-import "../../src/SuspiciousStrawberry.sol";
+import "../src/MeloVault.sol";
+import "../src/TrueVerifier.sol";
+import "../src/SuspiciousStrawberry.sol";
 
 contract MeloVaultDeploy is Script {
     function run() public {
