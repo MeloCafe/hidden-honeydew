@@ -19,6 +19,8 @@ contract Honeydew {
         uint256 endBlock;
         Transaction[] transactions;
     }
+    
+    event MeloVaultCreated(string indexed name);
 
     event ProposalCreated(
         bytes32 indexed id,
@@ -33,13 +35,18 @@ contract Honeydew {
 
     IERC721 public nft;
     IVerifier public verifier;
+    string public name;
 
     /** @dev proposal hash => start block */
     mapping(bytes32 => uint256) public proposals;
+    mapping(bytes32 => bool) public executed;
 
-    constructor(address _nft, address _verifier) {
+    constructor(string memory _name, address _nft, address _verifier) {
+        name = _name;
         nft = IERC721(_nft);
         verifier = IVerifier(_verifier);
+
+        emit MeloVaultCreated(_name);
     }
 
     function propose(Proposal calldata proposal) external {
@@ -62,10 +69,10 @@ contract Honeydew {
         emit ProposalCreated(id, snapshotBlockHash, proposal);
     }
 
-    function executeProposal(Proposal calldata proposal, bytes calldata sig)
+    function executeProposal(Proposal calldata proposal, bytes calldata fact)
         external
     {
-        require(verifier.verify(sig), "Honeydew: invalid signature");
+        require(verifier.verify(fact), "Honeydew: invalid fact");
 
         bytes32 id = proposalHash(proposal);
         require(proposals[id] != 0, "Honeydew: proposal does not exist");
@@ -74,6 +81,9 @@ contract Honeydew {
             block.number <= proposal.endBlock + blocksAllowedForExecution,
             "Honeydew: too late"
         );
+
+        require(!executed[id], "Honeydew: already executed");
+        executed[id] = true;
 
         for (uint256 i = 0; i < proposal.transactions.length; i++) {
             Transaction memory transaction = proposal.transactions[i];
