@@ -1,4 +1,4 @@
-name: test
+name: release
 
 on: 
   push:
@@ -24,13 +24,13 @@ jobs:
         with:
           version: nightly
 
-      - name: Run Forge build
-        run: |
-          forge --version
-          forge build --sizes
+      - run: |
+          forge build --extra-output-files abi
         id: build
 
-      - name: Run Forge tests
-        run: |
-          forge test -vvv
-        id: test
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "out/Honeydew.abi.sol"
+          commit: "main"
+          token: ${{ secrets.GITHUB_RELEASE_TOKEN }}
+
