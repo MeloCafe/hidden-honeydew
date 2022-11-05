@@ -22,15 +22,15 @@ contract MeloVault is IERC1155Receiver, IERC721Receiver {
         Transaction[] transactions;
     }
     
-    event MeloVaultCreated(string indexed name, address indexed token);
+    event MeloVaultCreated(string name, address token);
 
     event ProposalCreated(
-        bytes32 indexed id,
-        bytes32 indexed snapshotBlockHash,
-        Proposal indexed proposal
+        bytes32 id,
+        bytes32 snapshotBlockHash,
+        Proposal proposal
     );
 
-    event ProposalExecuted(bytes32 indexed id, Proposal indexed proposal);
+    event ProposalExecuted(bytes32 id, Proposal proposal);
 
     uint256 public constant blocksAllowedForExecution = 40320; // 7 days
     uint256 public constant maxBlocksInFuture = 172800; // 30 days
