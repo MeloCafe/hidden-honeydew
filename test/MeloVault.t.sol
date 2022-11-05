@@ -29,7 +29,7 @@ contract MeloVaultTest is Test {
     
     TestNFT token;
     IVerifier verifier;
-    MeloVault honeydew;
+    MeloVault vault;
 
     event ProposalCreated(
         bytes32 indexed id,
@@ -42,7 +42,7 @@ contract MeloVaultTest is Test {
     function setUp() public {
         token = new TestNFT();
         verifier = new TestVerifier();
-        honeydew = new MeloVault("MV", address(token), address(verifier));
+        vault = new MeloVault("MV", address(token), address(verifier));
     }
     
     function testDeploy() public {
@@ -54,17 +54,17 @@ contract MeloVaultTest is Test {
         vm.deal(address(actor), 1 ether);
 
         vm.prank(actor);
-        payable(address(honeydew)).transfer(1 ether);
+        payable(address(vault)).transfer(1 ether);
 
         token.mint(address(actor), 1);
         vm.prank(actor);
-        token.safeTransferFrom(address(actor), address(honeydew), 1);
+        token.safeTransferFrom(address(actor), address(vault), 1);
     }
 
     function testProposeAndExecute() public {
         address proposer = address(1);
 
-        vm.deal(address(honeydew), 1 ether);
+        vm.deal(address(vault), 1 ether);
 
         // make a proposal with 1 transaction that sends 1 wei to the address(2)
 
@@ -81,45 +81,45 @@ contract MeloVaultTest is Test {
             gas: 1
         });
         
-        bytes32 propId = honeydew.proposalHash(proposal);
+        bytes32 propId = vault.proposalHash(proposal);
 
         // propose
 
         vm.prank(proposer);
         vm.expectRevert("MeloVault: not a token holder");
-        honeydew.propose(proposal);
+        vault.propose(proposal);
 
         token.mint(proposer, 1);
 
         vm.prank(proposer);
         vm.expectEmit(true, true, true, true);
         emit ProposalCreated(propId, blockhash(block.number - 1), proposal);
-        honeydew.propose(proposal);
+        vault.propose(proposal);
 
         // execute
 
         bytes memory fact = abi.encode(0);
 
         vm.expectRevert("MeloVault: too soon");
-        honeydew.executeProposal(proposal, fact);
+        vault.executeProposal(proposal, fact);
 
         vm.roll(proposal.endBlock);
         vm.expectRevert("MeloVault: too soon");
-        honeydew.executeProposal(proposal, fact);
+        vault.executeProposal(proposal, fact);
 
-        vm.roll(proposal.endBlock + honeydew.blocksAllowedForExecution() + 1);
+        vm.roll(proposal.endBlock + vault.blocksAllowedForExecution() + 1);
         vm.expectRevert("MeloVault: too late");
-        honeydew.executeProposal(proposal, fact);
+        vault.executeProposal(proposal, fact);
 
         vm.roll(proposal.endBlock + 1);
         vm.expectEmit(true, true, true, true);
         emit ProposalExecuted(propId, proposal);
-        honeydew.executeProposal(proposal, fact);
+        vault.executeProposal(proposal, fact);
 
         assertEq(address(2).balance, 1);
 
         vm.expectRevert("MeloVault: already executed");
-        honeydew.executeProposal(proposal, fact);
+        vault.executeProposal(proposal, fact);
     }
 }
 
