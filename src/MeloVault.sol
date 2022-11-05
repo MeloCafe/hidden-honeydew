@@ -5,9 +5,7 @@ import "openzeppelin/token/ERC721/IERC721.sol";
 import "openzeppelin/token/ERC721/IERC721Receiver.sol";
 import "openzeppelin/token/ERC1155/IERC1155Receiver.sol";
 
-interface IVerifier {
-    function verify(bytes calldata) external view returns (bool);
-}
+import "./IVerifier.sol";
 
 contract MeloVault is IERC1155Receiver, IERC721Receiver {
     struct Transaction {

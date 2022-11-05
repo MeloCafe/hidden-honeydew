@@ -31,6 +31,8 @@ contract MeloVaultTest is Test {
     IVerifier verifier;
     MeloVault vault;
 
+    event MeloVaultCreated(string indexed name, address indexed token);
+
     event ProposalCreated(
         bytes32 indexed id,
         bytes32 indexed snapshotBlockHash,
@@ -46,6 +48,8 @@ contract MeloVaultTest is Test {
     }
     
     function testDeploy() public {
+        // vm.expectEmit(true, true, true, true);
+        // emit MeloVaultCreated("MV", address(token));
        new MeloVault("MV", address(0), address(0));
     }
 
