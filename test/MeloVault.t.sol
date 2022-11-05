@@ -49,17 +49,22 @@ contract MeloVaultTest is Test {
        new MeloVault("MV", address(0), address(0));
     }
 
+    function testReceive() public {
+        address actor = address(1);
+        vm.deal(address(actor), 1 ether);
+
+        vm.prank(actor);
+        payable(address(honeydew)).transfer(1 ether);
+
+        token.mint(address(actor), 1);
+        vm.prank(actor);
+        token.safeTransferFrom(address(actor), address(honeydew), 1);
+    }
+
     function testProposeAndExecute() public {
         address proposer = address(1);
 
-        // ensure the multisig can receive ether and tokens
-        vm.deal(address(proposer), 1 ether);
-        vm.prank(proposer);
-        payable(address(honeydew)).transfer(1 ether);
-
-        token.mint(address(proposer), 2);
-        vm.prank(proposer);
-        token.safeTransferFrom(address(proposer), address(honeydew), 2);
+        vm.deal(address(honeydew), 1 ether);
 
         // make a proposal with 1 transaction that sends 1 wei to the address(2)
 
