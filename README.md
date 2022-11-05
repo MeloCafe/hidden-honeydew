@@ -1,3 +1,9 @@
+## build abi
+
+```bash
+forge build --extra-output-files abi
+```
+
 ## scripts
 
 ### vault
