@@ -28,9 +28,7 @@ jobs:
           forge build --extra-output-files abi
         id: build
 
-      - uses: ncipollo/release-action@v1
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          artifacts: "out/Honeydew.abi.sol"
-          commit: "main"
-          token: ${{ secrets.RELEASE_GITHUB_TOKEN }}
-
+          files: out/Honeydew.abi.json
