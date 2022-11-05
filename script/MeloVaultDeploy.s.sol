@@ -17,9 +17,8 @@ contract MeloVaultDeploy is Script {
 
         vm.broadcast();
         strawberry.mint(tx.origin, 1);
-        strawberry.mint(msg.sender, 2);
 
         vm.broadcast();
-        new MeloVault("my vault", address(verifier), address(strawberry));
+        new MeloVault("my vault", address(strawberry), address(verifier));
     }
 }
