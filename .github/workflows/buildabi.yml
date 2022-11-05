@@ -1,8 +1,9 @@
 name: release
 
-on: 
+on:
   push:
-    branches: [main]
+    tags:
+      - "v*"
 
 env:
   FOUNDRY_PROFILE: ci
