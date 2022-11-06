@@ -1,0 +1,32 @@
+{
+  "transactions": [
+    {
+      "hash": "0x1ddb756676fb40fa31409f8184ee3a7fde049d21adaac641401e5a2e38babee6",
+      "transactionType": "CALL",
+      "contractName": null,
+      "contractAddress": "0x0947D92f79Ac253C093Eb0e25330C58E11234Ae6",
+      "function": null,
+      "arguments": null,
+      "transaction": {
+        "type": "0x02",
+        "from": "0xf0a72469853db74bec02301333f29780285b863d",
+        "to": "0x0947d92f79ac253c093eb0e25330c58e11234ae6",
+        "gas": "0x1a377",
+        "value": "0x0",
+        "data": "0x40c10f19000000000000000000000000a8dc7990450cf6a9d40371ef71b6fa132eeabb0e0000000000000000000000000000000000000000000000000000000000000001",
+        "nonce": "0x14",
+        "accessList": []
+      },
+      "additionalContracts": []
+    }
+  ],
+  "receipts": [],
+  "libraries": [],
+  "pending": [
+    "0x1ddb756676fb40fa31409f8184ee3a7fde049d21adaac641401e5a2e38babee6"
+  ],
+  "path": "/Users/bwags/Desktop/dev/secret-ape/hidden-honeydew/broadcast/StrawberryMint.s.sol/5/run-latest.json",
+  "returns": {},
+  "timestamp": 1667717994,
+  "commit": "2c0af7d"
+}

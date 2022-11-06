@@ -12,8 +12,8 @@ contract MeloVaultProposal is Script {
 
         MeloVault.Proposal memory proposal = MeloVault.Proposal({
             endBlock: block.number + 100,
-            title: "a good idea",
-            descriptionHash: "0xDEADBEEF",
+            title: "a really good idea",
+            descriptionHash: "bafybeicxohold3t3hfo4j3trns3bmi6oeifkfstfdz4c45fgbhprx6zlba",
             transactions: new MeloVault.Transaction[](1)
         });
 
