@@ -25,12 +25,12 @@ contract MeloVault is IERC1155Receiver, IERC721Receiver {
     event MeloVaultCreated(string name, address token);
 
     event ProposalCreated(
-        bytes32 id,
+        uint64 id,
         bytes32 snapshotBlockHash,
         Proposal proposal
     );
 
-    event ProposalExecuted(bytes32 id, Proposal proposal);
+    event ProposalExecuted(uint64 id, Proposal proposal);
 
     uint256 public constant blocksAllowedForExecution = 40320; // 7 days
     uint256 public constant maxBlocksInFuture = 172800; // 30 days
@@ -40,8 +40,8 @@ contract MeloVault is IERC1155Receiver, IERC721Receiver {
     string public name;
 
     /** @dev proposal hash => start block */
-    mapping(bytes32 => uint256) public proposals;
-    mapping(bytes32 => bool) public executed;
+    mapping(uint64 => uint256) public proposalBlockTimes;
+    mapping(uint64 => bool) public proposalExecuted;
 
     constructor(string memory _name, address _nft, address _verifier) {
         name = _name;
@@ -62,12 +62,12 @@ contract MeloVault is IERC1155Receiver, IERC721Receiver {
             "MeloVault: end block too far in the future"
         );
 
-        bytes32 id = proposalHash(proposal);
-        require(proposals[id] == 0, "MeloVault: proposal already exists");
+        uint64 id = proposalHash(proposal);
+        require(proposalBlockTimes[id] == 0, "MeloVault: proposal already exists");
 
         bytes32 snapshotBlockHash = blockhash(block.number - 1);
 
-        proposals[id] = block.number;
+        proposalBlockTimes[id] = block.number;
         emit ProposalCreated(id, snapshotBlockHash, proposal);
     }
 
@@ -76,16 +76,16 @@ contract MeloVault is IERC1155Receiver, IERC721Receiver {
     {
         require(verifier.verify(fact), "MeloVault: invalid fact");
 
-        bytes32 id = proposalHash(proposal);
-        require(proposals[id] != 0, "MeloVault: proposal does not exist");
+        uint64 id = proposalHash(proposal);
+        require(proposalBlockTimes[id] != 0, "MeloVault: proposal does not exist");
         require(block.number > proposal.endBlock, "MeloVault: too soon");
         require(
             block.number <= proposal.endBlock + blocksAllowedForExecution,
             "MeloVault: too late"
         );
 
-        require(!executed[id], "MeloVault: already executed");
-        executed[id] = true;
+        require(!proposalExecuted[id], "MeloVault: already executed");
+        proposalExecuted[id] = true;
 
         uint256 len = proposal.transactions.length;
         for (uint256 i; i < len; ) {
@@ -107,9 +107,9 @@ contract MeloVault is IERC1155Receiver, IERC721Receiver {
     function proposalHash(Proposal calldata proposal)
         public
         pure
-        returns (bytes32)
+        returns (uint64)
     {
-        return keccak256(abi.encode(proposal));
+        return uint64(uint256(keccak256(abi.encode(proposal))));
     }
 
     /// admin ///

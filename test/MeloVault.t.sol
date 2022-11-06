@@ -31,15 +31,15 @@ contract MeloVaultTest is Test {
     IVerifier verifier;
     MeloVault vault;
 
-    event MeloVaultCreated(string indexed name, address indexed token);
+    event MeloVaultCreated(string name, address token);
 
     event ProposalCreated(
-        bytes32 indexed id,
-        bytes32 indexed snapshotBlockHash,
-        MeloVault.Proposal indexed proposal
+        uint64 id,
+        bytes32 snapshotBlockHash,
+        MeloVault.Proposal proposal
     );
 
-    event ProposalExecuted(bytes32 indexed id, MeloVault.Proposal indexed proposal);
+    event ProposalExecuted(uint64 id, MeloVault.Proposal proposal);
 
     function setUp() public {
         token = new TestNFT();
@@ -85,7 +85,7 @@ contract MeloVaultTest is Test {
             gas: 1
         });
         
-        bytes32 propId = vault.proposalHash(proposal);
+        uint64 propId = vault.proposalHash(proposal);
 
         // propose
 
