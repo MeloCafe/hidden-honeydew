@@ -9,7 +9,6 @@ contract Unfunge is ERC721A {
     IERC20 public immutable fungibleToken;
     uint256 public immutable amountPerNonFungibleToken;
 
-
     constructor(
         string memory name,
         string memory symbol,
