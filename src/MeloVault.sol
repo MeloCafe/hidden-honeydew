@@ -71,13 +71,20 @@ contract MeloVault is IERC1155Receiver, IERC721Receiver {
         emit ProposalCreated(id, snapshotBlockHash, proposal);
     }
 
-    function executeProposal(Proposal calldata proposal, bytes calldata fact)
+    function executeProposal(Proposal calldata proposal, bytes calldata proof)
         external
     {
-        require(verifier.verify(fact), "MeloVault: invalid fact");
+        require(verifier.verify(proof), "MeloVault: invalid proof");
 
+        (address govAddr, uint64 propId) = abi.decode(proof[:64], (address, uint64));
         uint64 id = proposalHash(proposal);
-        require(proposalBlockTimes[id] != 0, "MeloVault: proposal does not exist");
+
+        require(govAddr == address(this), "MeloVault: invalid gov address");
+        require(propId == id, "MeloVault: invalid proposal id");
+        require(
+            proposalBlockTimes[propId] > 0,
+            "MeloVault: proposal does not exist"
+        );
         require(block.number > proposal.endBlock, "MeloVault: too soon");
         require(
             block.number <= proposal.endBlock + blocksAllowedForExecution,

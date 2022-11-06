@@ -102,28 +102,28 @@ contract MeloVaultTest is Test {
 
         // execute
 
-        bytes memory fact = abi.encode(0);
+        bytes memory proof = abi.encode(address(vault), propId);
 
         vm.expectRevert("MeloVault: too soon");
-        vault.executeProposal(proposal, fact);
+        vault.executeProposal(proposal, proof);
 
         vm.roll(proposal.endBlock);
         vm.expectRevert("MeloVault: too soon");
-        vault.executeProposal(proposal, fact);
+        vault.executeProposal(proposal, proof);
 
         vm.roll(proposal.endBlock + vault.blocksAllowedForExecution() + 1);
         vm.expectRevert("MeloVault: too late");
-        vault.executeProposal(proposal, fact);
+        vault.executeProposal(proposal, proof);
 
         vm.roll(proposal.endBlock + 1);
         vm.expectEmit(true, true, true, true);
         emit ProposalExecuted(propId, proposal);
-        vault.executeProposal(proposal, fact);
+        vault.executeProposal(proposal, proof);
 
         assertEq(address(2).balance, 1);
 
         vm.expectRevert("MeloVault: already executed");
-        vault.executeProposal(proposal, fact);
+        vault.executeProposal(proposal, proof);
     }
 }
 
