@@ -14,7 +14,7 @@ contract MeloVaultDeploy is Script {
         address verifierAddress = address(0xD6b9E04598f87b154a4797465c194C27341D5031);
         
         vm.broadcast();
-        SuspiciousStrawberry strawberry = new SuspiciousStrawberry("base uri");
+        SuspiciousStrawberry strawberry = new SuspiciousStrawberry("https://api.melo.cafe/strawberry/");
 
         vm.broadcast();
         strawberry.mint(tx.origin, 1);

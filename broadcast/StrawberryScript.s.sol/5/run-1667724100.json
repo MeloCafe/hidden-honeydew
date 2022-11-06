@@ -1,0 +1,32 @@
+{
+  "transactions": [
+    {
+      "hash": "0x4cbeba26580db066fb814d38720675ffde24e1784580e6f823b824cdb0200a03",
+      "transactionType": "CALL",
+      "contractName": null,
+      "contractAddress": "0x0947D92f79Ac253C093Eb0e25330C58E11234Ae6",
+      "function": null,
+      "arguments": null,
+      "transaction": {
+        "type": "0x02",
+        "from": "0xf0a72469853db74bec02301333f29780285b863d",
+        "to": "0x0947d92f79ac253c093eb0e25330c58e11234ae6",
+        "gas": "0x19d7c",
+        "value": "0x0",
+        "data": "0x55f804b30000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000002168747470733a2f2f6170692e6d656c6f2e636166652f737472617762657272792f00000000000000000000000000000000000000000000000000000000000000",
+        "nonce": "0x15",
+        "accessList": []
+      },
+      "additionalContracts": []
+    }
+  ],
+  "receipts": [],
+  "libraries": [],
+  "pending": [
+    "0x4cbeba26580db066fb814d38720675ffde24e1784580e6f823b824cdb0200a03"
+  ],
+  "path": "/Users/bwags/Desktop/dev/secret-ape/hidden-honeydew/broadcast/StrawberryScript.s.sol/5/run-latest.json",
+  "returns": {},
+  "timestamp": 1667724100,
+  "commit": "bce7a1e"
+}

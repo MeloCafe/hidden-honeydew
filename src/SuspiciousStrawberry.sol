@@ -2,15 +2,16 @@
 pragma solidity ^0.8.17;
 
 import "ERC721A/ERC721A.sol";
+import "openzeppelin/access/Ownable.sol";
 
-contract SuspiciousStrawberry is ERC721A {
+contract SuspiciousStrawberry is ERC721A, Ownable {
     string baseURI;
 
     constructor(string memory uri) ERC721A("Suspicious Strawberry", "SUSSTRAWB") {
         baseURI = uri;
     }
 
-    function setBaseURI(string memory uri) public {
+    function setBaseURI(string memory uri) external onlyOwner {
         baseURI = uri;
     }
 
@@ -18,7 +19,7 @@ contract SuspiciousStrawberry is ERC721A {
         return baseURI;
     }
 
-    function mint(address to, uint256 tokenId) public {
+    function mint(address to, uint256 tokenId) external onlyOwner {
         _mint(to, tokenId);
     }
 }
